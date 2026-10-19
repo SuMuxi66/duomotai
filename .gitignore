@@ -52,11 +52,24 @@ backend/_miio_deps/
 # 测试脚本
 backend/test_*.py
 
-# 环境变量
+# 环境变量（真实密钥一律不入库，公共仓库只推脱敏模板 .env.example）
 backend/.env.local
 .env.local
 .env.*.local
 backend/.env copy.local
+# 前端 .env 含明文 VITE_DEFAULT_*_API_KEY，入库只推脱敏模板
+frontend/.env
+frontend-1/.env
+frontend-2/.env
+frontend-3/.env
+frontend-4/.env
+frontend-5/.env
+演示/模块1/.env
+# 调试残留配置（含 api_keys 字段）
+backend/_cfg.json
+
+# 压缩包不入库
+*.zip
 
 # Agent 指令文档：仅限本地，不入库/不上传（恢复母本 AGENTS.local.md）
 AGENTS.md
