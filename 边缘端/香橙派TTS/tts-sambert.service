@@ -1,0 +1,16 @@
+[Unit]
+Description=Sambert-HiFTGAN TTS service on RK3588 (port 8769)
+After=network.target
+
+[Service]
+Type=simple
+User=orangepi
+Group=orangepi
+WorkingDirectory=/home/orangepi/tts
+Environment=TTS_THREADS=4
+ExecStart=/usr/bin/taskset -c 4-7 /home/orangepi/tts/venv/bin/python -m uvicorn tts_server:app --host 0.0.0.0 --port 8769
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

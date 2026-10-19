@@ -1,0 +1,18 @@
+[Unit]
+Description=OrangePi MLX90640 IR thermometer streamer (raw frames over WS -> backend /ws/opi-ir)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=orangepi
+Environment=OPI_IR_SERVER=ws://192.168.1.96:8010/ws/opi-ir,ws://192.168.1.252:8010/ws/opi-ir,ws://192.168.1.236:8010/ws/opi-ir,ws://192.168.1.180:8010/ws/opi-ir
+# 可选：指定串口（默认自动扫 /dev/ttyUSB* / /dev/ttyACM*）
+# Environment=OPI_IR_DEVICE=/dev/ttyUSB0
+# Environment=OPI_IR_BAUD=115200
+WorkingDirectory=/home/orangepi/camera
+ExecStart=/usr/bin/python3 /home/orangepi/camera/opi_ir_client.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

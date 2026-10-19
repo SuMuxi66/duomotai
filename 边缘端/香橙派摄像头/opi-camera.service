@@ -1,0 +1,30 @@
+[Unit]
+Description=OrangePi USB camera streamer (JPEG over WS -> backend /ws/opi-cam)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=orangepi
+# 双后端（演示双机）按需增删；真实生效文件在 Pi 的 /etc/systemd/system/opi-camera.service，
+# 本文件是其镜像（2026-09-11 实测同步），改动后需 scp 到 Pi 的 /etc 同路径并 daemon-reload
+Environment=OPI_CAM_SERVER=ws://192.168.1.96:8010/ws/opi-cam,ws://192.168.1.252:8010/ws/opi-cam,ws://192.168.1.236:8010/ws/opi-cam,ws://192.168.1.180:8010/ws/opi-cam
+# 有线 2K 档（2026-09-11）：目标 2560x1440@30/q75。旋转固定 0°：推流永远是原始画面，
+# 方向是每台后端自己的偏好（CAMERA_ROTATION）——由各后端在 /usb-camera/latest 出帧
+# 与视觉链路转正、前端 CSS 显示，各侧互不影响。勿改回源头旋转/跟随后端轮询（双后端会联动）。
+# 带宽 ≈1.5MB/s（12Mbit），千兆有线余量充足。
+# RK3588 单核 JPEG 编码 2K 是瓶颈（读帧+编码串行 ~73ms），实测稳定 13-14fps；
+# 不要做"预读下一帧"流水线——两路 OpenCV 重线程并发会 GIL 争用掉到 7fps（实测踩坑）。
+# 要更高帧率：降 OPI_CAM_WIDTH/HEIGHT=1920x1080（约 20fps）或 1280x720（约 30fps）。
+Environment=OPI_CAM_WIDTH=2560
+Environment=OPI_CAM_HEIGHT=1440
+Environment=OPI_CAM_FPS=30
+Environment=OPI_CAM_QUALITY=75
+Environment=OPI_CAM_ROTATION=0
+# Environment=OPI_CAM_DEVICE=/dev/video0
+WorkingDirectory=/home/orangepi/camera
+ExecStart=/usr/bin/python3 /home/orangepi/camera/opi_camera_client.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

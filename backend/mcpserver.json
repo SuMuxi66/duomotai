@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "device": {
+      "command": "python",
+      "args": [
+        "mcp_server.py"
+      ],
+      "transport": "stdio",
+      "env": {
+        "PYTHONPATH": "."
+      },
+      "description": "设备控制 MCP 服务器：向标准 MCP 生态暴露排风扇控制工具",
+      "tools": [
+        {
+          "name": "fan_control",
+          "description": "控制排风扇（真实调用 fan.py 的 miIO 逻辑）",
+          "parameters": {
+            "state": {
+              "type": "string",
+              "enum": ["on", "off"],
+              "description": "目标状态：on=开启，off=关闭"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

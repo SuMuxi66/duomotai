@@ -1,0 +1,21 @@
+[Unit]
+Description=OrangePi weight scale + solenoid valve bridge (WS -> backend /ws/opi-sensors)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=orangepi
+Environment=OPI_SENSORS_SERVER=ws://192.168.1.96:8010/ws/opi-sensors,ws://192.168.1.252:8010/ws/opi-sensors
+# 串口不钉死（2026-09-14）：断电/重插后 ttyUSB 编号会洗牌，钉死必翻车。
+# 客户端按应答特征自动分类：发 'F'（幂等关阀）回 OK OFF = 阀；静读出 Weight= 行 = 称重。
+# 下面两行仅当自动分类失灵时应急钉死用（先 journalctl 看分类日志确认新编号再改）。
+# Environment=OPI_WEIGHT_DEVICE=/dev/ttyUSB1
+# Environment=OPI_VALVE_DEVICE=/dev/ttyUSB3
+# Environment=OPI_VALVE_PROTOCOL=single
+WorkingDirectory=/home/orangepi/camera
+ExecStart=/usr/bin/python3 /home/orangepi/camera/opi_sensors_client.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

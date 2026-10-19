@@ -1,0 +1,287 @@
+/* ==================== 全局重置 ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* 主色调 - 莫兰迪色系 */
+  --primary: #6a9fb5;
+  --primary-glow: rgba(106, 159, 181, 0.2);
+  --secondary: #c4a484;
+  --secondary-glow: rgba(196, 164, 132, 0.2);
+  --accent: #9b8aa6;
+  --accent-glow: rgba(155, 138, 166, 0.2);
+  --success: #87a987;
+  --danger: #c17e7e;
+
+  /* 背景色 */
+  --bg-dark: #faf9f7;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-card-2: rgba(248, 247, 245, 0.95);
+  --bg-hover: rgba(244, 242, 240, 0.9);
+
+  /* 文字色 */
+  --text-primary: #4a4a4a;
+  --text-secondary: #7a7a7a;
+  --text-muted: #a0a0a0;
+
+  /* 边框 */
+  --border: rgba(180, 180, 180, 0.4);
+  --border-light: rgba(180, 180, 180, 0.2);
+
+  /* 阴影 */
+  --shadow-soft: 0 4px 24px rgba(60, 60, 60, 0.06);
+  --shadow-glow: 0 0 40px var(--primary-glow);
+
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  /* 动画 */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ==================== 背景装饰 ==================== */
+.bg-decoration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bg-gradient-1 {
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+  animation: float 20s ease-in-out infinite;
+}
+
+.bg-gradient-2 {
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--secondary-glow) 0%, transparent 70%);
+  animation: float 25s ease-in-out infinite reverse;
+}
+
+.bg-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(100, 100, 140, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 100, 140, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 20px) scale(1.1); }
+}
+
+/* ==================== 滚动条样式 ==================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Firefox滚动条样式 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* ==================== 动画 ==================== */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px var(--primary-glow); }
+  50% { box-shadow: 0 0 40px var(--primary-glow); }
+}
+
+@keyframes pulse-stop {
+  0%, 100% { box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3); }
+  50% { box-shadow: 0 4px 24px rgba(239, 68, 68, 0.5), 0 0 0 6px rgba(239, 68, 68, 0.1); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes record-pulse {
+  0%, 100% { 
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4), 0 0 0 0 rgba(34, 197, 94, 0.5); 
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 4px 30px rgba(34, 197, 94, 0.6), 0 0 0 8px rgba(34, 197, 94, 0); 
+    transform: scale(1.05);
+  }
+}
+
+@keyframes message-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==================== 下拉菜单样式 ==================== */
+select {
+  font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+select:hover {
+  background: rgba(244, 242, 240, 0.95) !important;
+}
+
+select:focus {
+  background: rgba(244, 242, 240, 0.98) !important;
+}
+
+select option {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 8px 12px;
+  background: #ffffff;
+  color: #4a4a4a;
+  border: none;
+}
+
+select option:hover {
+  background: rgba(106, 159, 181, 0.1) !important;
+}
+
+select option:checked {
+  background: rgba(106, 159, 181, 0.15) !important;
+  color: #6a9fb5;
+  font-weight: 500;
+}
+
+/* ==================== 顶部导航栏滚动条 ==================== */
+.top-nav-bar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.top-nav-bar {
+  scrollbar-width: none; /* Firefox隐藏滚动条 */
+  -ms-overflow-style: none;  /* IE/Edge隐藏滚动条 */
+  scroll-behavior: smooth;
+}
+
+.top-nav-bar::-webkit-scrollbar {
+  height: 0; /* 隐藏滚动条 */
+}
+
+.top-nav-bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.top-nav-bar::-webkit-scrollbar-thumb {
+  background: transparent; /* 默认隐藏 */
+  border-radius: 4px;
+}
+
+.top-nav-bar:hover::-webkit-scrollbar-thumb {
+  background: rgba(106, 159, 181, 0.5); /* 悬停时显示滚动条 */
+}
+
+.top-nav-bar::-webkit-scrollbar-button {
+  display: none; /* 隐藏原生按钮 */
+}
+
+/* 左右滚动按钮 */
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 44px;
+  background: rgba(106, 159, 181, 0.15);
+  border: 1px solid rgba(106, 159, 181, 0.3);
+  border-radius: 14px;
+  color: rgba(106, 159, 181, 0.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease, background 0.3s ease;
+  z-index: 10;
+}
+
+.scroll-button:hover {
+  background: rgba(106, 159, 181, 0.3);
+  color: rgba(106, 159, 181, 1);
+}
+
+.scroll-button.visible {
+  opacity: 1;
+}
+
+.scroll-button-left {
+  left: -14px; /* 超出左边 */
+}
+
+/* 右滚动按钮现在放在设置按钮右侧（控制按钮区域内），不使用绝对定位 */
+
+.scroll-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ===== 演示页面动画 ===== */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
